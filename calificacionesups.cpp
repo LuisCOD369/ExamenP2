@@ -17,10 +17,10 @@ CalificacionesUPS::CalificacionesUPS(QWidget *parent)
 
     // Establecer la geometría de los widgets
     tableWidget->setGeometry(10, 10, 600, 300);
-    buttonRegistrar->setGeometry(200, 320, 100, 30);
-    buttonGuardar->setGeometry(200, 360, 100, 30);
-    buttonCargarD->setGeometry(300, 360, 100, 30);
-    buttonCreditos->setGeometry(400, 360, 100, 30 );
+    buttonRegistrar->setGeometry(250, 320, 100, 30);
+    buttonGuardar->setGeometry(25, 360, 80, 30);
+    buttonCargarD->setGeometry(125, 360, 80, 30);
+    buttonCreditos->setGeometry(475, 360, 80, 30 );
 
     // Establecer las propiedades del widget de tabla
     tableWidget->setColumnCount(7);
@@ -70,14 +70,20 @@ void CalificacionesUPS::registrar()
         tableWidget->setItem(numEstudiantes, 1, new QTableWidgetItem(estudiante.apellidos));
         tableWidget->setItem(numEstudiantes, 2, new QTableWidgetItem(QString::number(estudiante.nota1)));
         tableWidget->setItem(numEstudiantes, 3, new QTableWidgetItem(QString::number(estudiante.nota2)));
-        tableWidget->setItem(numEstudiantes, 4, new QTableWidgetItem(QString::number(estudiante.notaFinal)));
-        tableWidget->setItem(numEstudiantes, 5, new QTableWidgetItem(estudiante.estado));
-        tableWidget->setItem(numEstudiantes, 6, new QTableWidgetItem(QString::number(estudiante.notaRemedial)));
+
+        // Configurar la celda para la nota final
+        QTableWidgetItem *itemNotaFinal = new QTableWidgetItem(QString::number(estudiante.notaFinal));
         if (estudiante.notaFinal < 70) {
-            tableWidget->setItem(numEstudiantes, 6, new QTableWidgetItem(QString::number(estudiante.notaRemedial)));
+            // Nota final menor a 70, pintar fondo de rojo
+            itemNotaFinal->setData(Qt::BackgroundRole, QBrush(QColor(255, 0, 0)));
         } else {
-            tableWidget->setItem(numEstudiantes, 6, new QTableWidgetItem(""));
+            // Nota final mayor o igual a 70, pintar fondo de verde
+            itemNotaFinal->setData(Qt::BackgroundRole, QBrush(QColor(0, 255, 0)));
         }
+        tableWidget->setItem(numEstudiantes, 4, itemNotaFinal);
+
+        tableWidget->setItem(numEstudiantes, 5, new QTableWidgetItem(estudiante.estado));
+
         // Incrementar el contador de estudiantes
         numEstudiantes++;
     }
@@ -191,12 +197,12 @@ void CalificacionesUPS::cargarDatos()
 void CalificacionesUPS::mostrarCreditos()
 {
     // Crear y mostrar la ventana de créditos
-    QString nombreUsuario = "LuisCOD369";
+    QString nombreUsuario = "Luis Pillajo";
     QDialog creditosDialog(this);
     creditosDialog.setWindowTitle("Créditos");
 
     QLabel *labelNombre = new QLabel("Nombre: " + nombreUsuario, &creditosDialog);
-    QPushButton *buttonEnlace = new QPushButton("Abrir Enlace", &creditosDialog);
+    QPushButton *buttonEnlace = new QPushButton("LuisCOD369", &creditosDialog);
 
     connect(buttonEnlace, &QPushButton::clicked, [&]() {
         // Abrir el enlace en el navegador predeterminado
