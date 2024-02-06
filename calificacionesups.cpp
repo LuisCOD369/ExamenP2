@@ -7,10 +7,12 @@ CalificacionesUPS::CalificacionesUPS(QWidget *parent)
     // Crear los widgets de la ventana
     tableWidget = new QTableWidget(this);
     buttonRegistrar = new QPushButton("Registrar", this);
+    buttonGuardar = new QPushButton("Guardar", this);
 
     // Establecer la geometría de los widgets
     tableWidget->setGeometry(10, 10, 600, 300);
     buttonRegistrar->setGeometry(200, 320, 100, 30);
+    buttonGuardar->setGeometry(200, 360, 100, 30);
 
     // Establecer las propiedades del widget de tabla
     tableWidget->setColumnCount(7);
@@ -26,6 +28,8 @@ CalificacionesUPS::CalificacionesUPS(QWidget *parent)
 
     // Conectar las señales y los slots
     connect(buttonRegistrar, SIGNAL(clicked()), this, SLOT(registrar()));
+    connect(buttonGuardar, SIGNAL(clicked()), this, SLOT(onGuardarPushButtonClicked()));
+
 }
 void CalificacionesUPS::calcularMinRemedial(Estudiante& estudiante) {
     // Calcular la nota mínima del examen remedial
@@ -65,4 +69,37 @@ void CalificacionesUPS::registrar()
     }
 }
 
+void CalificacionesUPS::guardarEnArchivoCSV() {
+    // Obtener la ruta del archivo usando un cuadro de diálogo
+    QString rutaArchivo = QFileDialog::getSaveFileName(this, "Guardar como", QString(), "Archivos CSV (*.csv)");
+
+    if (!rutaArchivo.isEmpty()) {
+        QFile archivo(rutaArchivo);
+        if (archivo.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream stream(&archivo);
+
+            // Escribir las cabeceras
+            QStringList cabeceras;
+            for (int col = 0; col < tableWidget->columnCount(); ++col) {
+                cabeceras << tableWidget->horizontalHeaderItem(col)->text();
+            }
+            stream << cabeceras.join(',') << "\n";
+
+            // Escribir los datos
+            for (int row = 0; row < numEstudiantes; ++row) {
+                QStringList datosFila;
+                for (int col = 0; col < tableWidget->columnCount(); ++col) {
+                    QTableWidgetItem *item = tableWidget->item(row, col);
+                    datosFila << (item ? item->text() : "");
+                }
+                stream << datosFila.join(',') << "\n";
+            }
+
+            archivo.close();
+        }
+    }
+}
+void CalificacionesUPS::onGuardarPushButtonClicked() {
+    guardarEnArchivoCSV();
+}
 
