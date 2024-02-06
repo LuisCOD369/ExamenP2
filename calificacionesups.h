@@ -10,6 +10,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QKeySequence>
+#include <QMessageBox>
 
 #define MAX_ESTUDIANTES 5
 
@@ -18,17 +19,21 @@ class CalificacionesUPS : public QWidget {
 public:
     CalificacionesUPS(QWidget *parent = nullptr);
     void calcularMinRemedial(Estudiante& estudiante);
+
 public slots:
     void guardarEnArchivoCSV();
 
 
 private slots:
     void registrar();
+    void onGuardarPushButtonClicked();
+    void cargarDatos();
 
 private:
     QTableWidget *tableWidget;
     QPushButton *buttonRegistrar;
-    void onGuardarPushButtonClicked();
+    QPushButton *buttonCargarD;
+
 
     int numEstudiantes;
     QPushButton *buttonGuardar;
