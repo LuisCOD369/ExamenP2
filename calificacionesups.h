@@ -12,7 +12,7 @@
 #include <QKeySequence>
 #include <QMessageBox>
 
-#define MAX_ESTUDIANTES 5
+#define MAX_ESTUDIANTES 10
 
 class CalificacionesUPS : public QWidget {
     Q_OBJECT
@@ -28,6 +28,7 @@ private slots:
     void registrar();
     void onGuardarPushButtonClicked();
     void cargarDatos();
+    void mostrarCreditos();
 
 private:
     QTableWidget *tableWidget;
@@ -37,6 +38,7 @@ private:
 
     int numEstudiantes;
     QPushButton *buttonGuardar;
+    QPushButton *buttonCreditos;
 };
 
 #endif // CALIFICACIONESUPS_H

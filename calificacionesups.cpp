@@ -2,7 +2,8 @@
 #include <QHeaderView>
 #include <QFileDialog>
 #include <QtDebug>
-#include <creditos.h>
+#include <QVBoxLayout>
+#include <QDesktopServices>
 
 CalificacionesUPS::CalificacionesUPS(QWidget *parent)
     : QWidget(parent), numEstudiantes(0)
@@ -12,12 +13,14 @@ CalificacionesUPS::CalificacionesUPS(QWidget *parent)
     buttonRegistrar = new QPushButton("Registrar", this);
     buttonGuardar = new QPushButton("Guardar", this);
     buttonCargarD = new QPushButton("Cargar", this);
+    buttonCreditos = new QPushButton("Creditos", this);
 
     // Establecer la geometría de los widgets
     tableWidget->setGeometry(10, 10, 600, 300);
     buttonRegistrar->setGeometry(200, 320, 100, 30);
     buttonGuardar->setGeometry(200, 360, 100, 30);
     buttonCargarD->setGeometry(300, 360, 100, 30);
+    buttonCreditos->setGeometry(400, 360, 100, 30 );
 
     // Establecer las propiedades del widget de tabla
     tableWidget->setColumnCount(7);
@@ -35,6 +38,7 @@ CalificacionesUPS::CalificacionesUPS(QWidget *parent)
     connect(buttonRegistrar, SIGNAL(clicked()), this, SLOT(registrar()));
     connect(buttonGuardar, SIGNAL(clicked()), this, SLOT(onGuardarPushButtonClicked()));
     connect(buttonCargarD, SIGNAL(clicked()), this, SLOT(cargarDatos()));
+    connect(buttonCreditos, SIGNAL(clicked()), this, SLOT(mostrarCreditos()));
 
 }
 void CalificacionesUPS::calcularMinRemedial(Estudiante& estudiante) {
@@ -182,4 +186,28 @@ void CalificacionesUPS::cargarDatos()
             QMessageBox::warning(this, "Error", "No se pudo abrir el archivo.");
         }
     }
+}
+
+void CalificacionesUPS::mostrarCreditos()
+{
+    // Crear y mostrar la ventana de créditos
+    QString nombreUsuario = "LuisCOD369";
+    QDialog creditosDialog(this);
+    creditosDialog.setWindowTitle("Créditos");
+
+    QLabel *labelNombre = new QLabel("Nombre: " + nombreUsuario, &creditosDialog);
+    QPushButton *buttonEnlace = new QPushButton("Abrir Enlace", &creditosDialog);
+
+    connect(buttonEnlace, &QPushButton::clicked, [&]() {
+        // Abrir el enlace en el navegador predeterminado
+        QDesktopServices::openUrl(QUrl("https://github.com/LuisCOD369"));
+    });
+
+    QVBoxLayout *layout = new QVBoxLayout(&creditosDialog);
+    layout->addWidget(labelNombre);
+    layout->addWidget(buttonEnlace);
+
+    creditosDialog.setLayout(layout);
+
+    creditosDialog.exec();
 }
