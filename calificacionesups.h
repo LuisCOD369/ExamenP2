@@ -11,6 +11,7 @@ class CalificacionesUPS : public QWidget {
     Q_OBJECT
 public:
     CalificacionesUPS(QWidget *parent = nullptr);
+    void calcularMinRemedial(Estudiante& estudiante);
 
 
 private slots:
