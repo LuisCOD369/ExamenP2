@@ -11,6 +11,7 @@
 #include <QTextStream>
 #include <QKeySequence>
 #include <QMessageBox>
+#include <QTranslator>
 
 #define MAX_ESTUDIANTES 10
 

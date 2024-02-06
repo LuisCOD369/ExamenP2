@@ -71,6 +71,12 @@ void CalificacionesUPS::registrar()
         tableWidget->setItem(numEstudiantes, 2, new QTableWidgetItem(QString::number(estudiante.nota1)));
         tableWidget->setItem(numEstudiantes, 3, new QTableWidgetItem(QString::number(estudiante.nota2)));
 
+        if (estudiante.notaFinal < 70) {
+            tableWidget->setItem(numEstudiantes, 6, new QTableWidgetItem(QString::number(estudiante.notaRemedial)));
+       } else {
+           tableWidget->setItem(numEstudiantes, 6, new QTableWidgetItem(""));
+       }
+
         // Configurar la celda para la nota final
         QTableWidgetItem *itemNotaFinal = new QTableWidgetItem(QString::number(estudiante.notaFinal));
         if (estudiante.notaFinal < 70) {
